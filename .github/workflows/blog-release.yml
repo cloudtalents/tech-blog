@@ -27,8 +27,8 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 output-format: json
 
-            - name: Verify AWS CLI
-              run: aws --version
+            - name: Verify AWS CLI Config
+              run: sudo cat ~/.aws/config
 
               
 
