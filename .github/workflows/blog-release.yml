@@ -1,0 +1,19 @@
+name: Release
+
+on:
+    push:
+        branches: 
+            - main
+            - 'feature/development'
+
+jobs:
+    build:
+        name: Build website using HUGO
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install HUGO
+              run: |
+                sudo apt install hugo
+                hugo version
+              
+
