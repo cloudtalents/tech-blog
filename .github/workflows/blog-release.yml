@@ -9,8 +9,7 @@ on:
 env:
   BUCKET_NAME : "tech-blog-data"
   AWS_REGION : "eu-west-1"
-  DISTRIBUTION_ID: "E3SMW0R4O8UEXL"
-
+  
 jobs:
     build:
         name: Tech Blog
@@ -43,7 +42,7 @@ jobs:
             - name: Create CloudFront Invalidation
               run: |
                 aws cloudfront create-invalidation \
-                --distribution-id ${{env.DISTRIBUTION_ID}} \
+                --distribution-id ${{vars.DISTRIBUTION_ID}} \
                 --paths "/*"
 
 
