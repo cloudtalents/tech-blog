@@ -17,15 +17,17 @@ jobs:
             - name: Install HUGO
               run: |
                 sudo apt install hugo
-                hugo version
+                pwd
+                ls -larth
 
-            - name: Build
-              run: | 
-                cd ${{github.repository}}
-                hugo
 
-            - name: Verify artifacts
-              run: ls -la public
+            # - name: Build
+            #   run: | 
+            #     cd ${{github.repository}}
+            #     hugo
+
+            # - name: Verify artifacts
+            #   run: ls -la public
 
 
               
