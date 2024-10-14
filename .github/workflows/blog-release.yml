@@ -11,16 +11,21 @@ jobs:
         name: Build website using HUGO
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
             - name: Install HUGO
               run: |
                 sudo apt install hugo
                 hugo version
 
-            - name: Checkout Repository
-              uses: actions/checkout@v4
-            
-            - name: Verify AWS CLI
-              run: aws --version  
+            - name: Build
+              run: | 
+                cd ${{github.repository}}
+                hugo
+
+            - name: Verify artifacts
+              run: ls -la public
 
 
               
