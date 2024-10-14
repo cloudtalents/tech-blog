@@ -9,10 +9,11 @@ on:
 env:
   BUCKET_NAME : "tech-blog-data"
   AWS_REGION : "eu-west-1"
+  DISTRIBUTION_ID: "E3SMW0R4O8UEXL"
 
 jobs:
     build:
-        name: Build website using HUGO
+        name: Tech Blog
         runs-on: ubuntu-latest
         permissions:
           id-token: write
@@ -42,9 +43,9 @@ jobs:
             - name: Create CloudFront Invalidation
               run: |
                 aws cloudfront create-invalidation \
-                --distribution-id E3SMW0R4O8UEXL \
+                --distribution-id ${{env.DISTRIBUTION_ID}} \
                 --paths "/*"
-                
+
 
 
               
