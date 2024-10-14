@@ -19,7 +19,6 @@ jobs:
   # obtain OIDC token from aws
   # sync s3 bucket
   # create cloudfront cache invalidation 
-
     build:
         name: Tech Blog
         runs-on: ubuntu-latest
