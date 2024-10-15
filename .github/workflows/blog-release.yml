@@ -45,7 +45,9 @@ jobs:
                 aws-region: ${{ env.AWS_REGION }}
 
             - name: S3 sync
-              run: aws s3 sync public/ s3://${{env.BUCKET_NAME}}
+              run: | 
+                aws s3 sync public/ s3://${{env.BUCKET_NAME}} \
+                --delete
 
             - name: Create CloudFront Invalidation
               run: |
