@@ -55,6 +55,9 @@ jobs:
               with:
                 name: tech-blog
 
+            - name: List Files
+              run: ls -latrh
+
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v4
               with:
@@ -71,7 +74,7 @@ jobs:
                 aws cloudfront create-invalidation \
                 --distribution-id ${{vars.DISTRIBUTION_ID}} \
                 --paths "/*"
-                
+
 
 
 
