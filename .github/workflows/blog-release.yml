@@ -42,7 +42,7 @@ jobs:
   # obtain OIDC token from aws
   # sync s3 bucket
   # create cloudfront cache invalidation 
-  
+
     deploy_job:
         name: Publish
         needs: [build_job]
@@ -73,6 +73,7 @@ jobs:
                 aws cloudfront create-invalidation \
                 --distribution-id ${{vars.DISTRIBUTION_ID}} \
                 --paths "/*"
+                
 
 
 
