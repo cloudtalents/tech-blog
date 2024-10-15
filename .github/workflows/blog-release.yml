@@ -63,7 +63,7 @@ jobs:
 
             - name: S3 sync
               run: | 
-                aws s3 sync putech-blog/ s3://${{secrets.BUCKET_NAME}} \
+                aws s3 sync tech-blog/ s3://${{secrets.BUCKET_NAME}} \
                 --delete
 
             - name: Create CloudFront Invalidation
