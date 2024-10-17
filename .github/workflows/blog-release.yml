@@ -11,6 +11,56 @@ env:
   
 jobs:
 
+  # This job provisions AWS inrastructure using HCP terraform
+  # git clone repository
+  # Install terraform CLI
+  # execute terraform workflow
+  # store and pass output across the jobs
+
+    Infra_job:
+        name: AWS Infrastructure Provisioning with Terraform
+        runs-on: ubuntu-latest
+        defaults:
+          run:
+            working-directory: terraform
+        outputs:
+          s3_bucket: ${{ steps.tf_out.outputs.s3_bucket }}
+          cf_id: ${{ steps.tf_out.outputs.cloudFront_ID }}
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Terraform Workflow
+              uses: hashicorp/setup-terraform@v3
+              with:
+                terraform_version: "1.9.7"
+                cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+            - name: Terraform Init
+              id: init
+              run: terraform init
+
+            - name: Terraform Validate
+              id: validate
+              run: terraform validate -no-color
+
+            - name: Terraform Plan
+              id: plan
+              run: terraform plan -no-color
+              continue-on-error: true
+
+            - name: Terraform Apply
+              id: Apply
+              run: terraform apply -auto-approve
+
+            - name: Terraform Output
+              id: tf_out
+              run: |
+                terraform output s3_bucket >> "$GITHUB_OUTPUT"
+                terraform output cloudFront_ID >> "$GITHUB_OUTPUT"
+                terraform output cloudFront_domain_name >> "$GITHUB_OUTPUT"
+
   # This job runs our automated build process including
   # git clone repository
   # setting up HUGO development server
@@ -18,7 +68,9 @@ jobs:
 
     build_job:
         name: Build
+        needs: [Infra_job]
         runs-on: ubuntu-latest
+
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v4
@@ -45,7 +97,10 @@ jobs:
 
     deploy_job:
         name: Publish
-        needs: [build_job]
+        needs: [build_job, Infra_job]
+        env:
+          S3_BUCKET: ${{needs.Infra_job.outputs.s3_bucket}}
+          DISTRIBUTION_ID: ${{needs.Infra_job.outputs.cf_id}}
         runs-on: ubuntu-latest
         permissions:
           id-token: write     # This is required for requesting the JWT
@@ -65,15 +120,15 @@ jobs:
 
             - name: S3 sync
               run: | 
-                aws s3 sync . s3://${{secrets.BUCKET_NAME}} \
+                aws s3 sync . s3://${{env.S3_BUCKET}} \
                 --delete
 
             - name: Create CloudFront Invalidation
               run: |
                 aws cloudfront create-invalidation \
-                --distribution-id ${{vars.DISTRIBUTION_ID}} \
+                --distribution-id ${{env.DISTRIBUTION_ID}} \
                 --paths "/*"
-                
+
 
 
 
