@@ -5,10 +5,10 @@ name: Release
 
 on: 
     workflow_dispatch: 
-    # push:
-    #     branches: 
-    #         - main
-    #         - 'feature/development'
+    push:
+        branches: 
+            - main
+            - 'feature/development'
 
 env:
   AWS_REGION : "eu-west-1"    # AWS region where s3 bucket is deployed
