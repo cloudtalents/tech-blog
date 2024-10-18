@@ -4,7 +4,7 @@ name: Release
 # events in feature/development and main branch
 
 on: 
-      workflow_dispatch: 
+    workflow_dispatch: 
     # push:
     #     branches: 
     #         - main
