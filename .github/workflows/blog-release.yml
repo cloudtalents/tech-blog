@@ -4,10 +4,11 @@ name: Release
 # events in feature/development and main branch
 
 on:
-    push:
-        branches: 
-            - main
-            - 'feature/development'
+    workflow_dispatch: 
+    # push:
+    #     branches: 
+    #         - main
+    #         - 'feature/development'
 
 env:
   AWS_REGION : "eu-west-1"    # AWS region where s3 bucket is deployed
