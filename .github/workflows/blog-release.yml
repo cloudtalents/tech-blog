@@ -3,8 +3,7 @@ name: Release
 # this workflow gets triggered for push
 # events in feature/development and main branch
 
-on:
-    workflow_dispatch: 
+on: workflow_dispatch
     # push:
     #     branches: 
     #         - main
