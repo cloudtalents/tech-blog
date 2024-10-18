@@ -65,9 +65,9 @@ jobs:
             - name: Terraform Output
               id: tf_out
               run: |
-                echo "s3=$(terraform output s3_bucket)" >> "$GITHUB_OUTPUT"
-                echo "cfid=$(terraform output cloudFront_ID)" >> "$GITHUB_OUTPUT"
-                echo "domain=$(terraform output cloudFront_domain_name)" >> "$GITHUB_OUTPUT"
+                echo "s3=$(terraform output s3_bucket | tr -d '""')" >> "$GITHUB_OUTPUT"
+                echo "cfid=$(terraform output cloudFront_ID | tr -d '""')" >> "$GITHUB_OUTPUT"
+                echo "domain=$(terraform output cloudFront_domain_name | tr -d '""')" >> "$GITHUB_OUTPUT"
 
   # This job runs our automated build process including
   # git clone repository
