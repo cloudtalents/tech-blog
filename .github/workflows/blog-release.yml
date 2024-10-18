@@ -32,8 +32,8 @@ jobs:
         # as outputs and will be passed to "deploy_job"
 
         outputs:
-          s3_bucket: ${{ steps.tf_out.outputs.s3_bucket }}
-          cf_id: ${{ steps.tf_out.outputs.cloudFront_ID }}
+          s3_bucket: ${{ steps.tf_out.outputs.s3 }}
+          cf_id: ${{ steps.tf_out.outputs.cfid }}
 
         steps:
             - name: Checkout Repository
@@ -65,9 +65,9 @@ jobs:
             - name: Terraform Output
               id: tf_out
               run: |
-                terraform output s3_bucket | tr -d '""' >> "$GITHUB_OUTPUT"
-                terraform output cloudFront_ID | tr -d '""' >> "$GITHUB_OUTPUT"
-                terraform output cloudFront_domain_name | tr -d '""' >> "$GITHUB_OUTPUT"
+                echo "s3=$(terraform output s3_bucket)" >> "$GITHUB_OUTPUT"
+                echo "cfid=$(terraform output cloudFront_ID)" >> "$GITHUB_OUTPUT"
+                echo "domain=$(terraform output cloudFront_domain_name)" >> "$GITHUB_OUTPUT"
 
   # This job runs our automated build process including
   # git clone repository
